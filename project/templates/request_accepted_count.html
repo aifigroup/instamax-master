@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="https://i.postimg.cc/B6kk4MyD/AM-icon.png" />
+    <meta name="application-name" content="Pricing | AcceptMe,in">
+    <meta name="description"
+        content="An efficient website to help you accept all your pending requests on Instagram profile in a very convenient way. Visit once and experience the magic." />
+    <meta property="og:description"
+        content="An efficient website to help you accept all your pending requests on Instagram profile in a very convenient way. Visit once and experience the magic." />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="keywords"
+        content="Pending,request,instagram,insta,gram,telegram,facebook,gmail,whatsapp,intasgrm,graminsta,user,followers,acceptall,allow,users, pending instagram requests, downloader, insta DP, instagram profile pic, instagram profile, picture, download instagram video, video downloader, Acceptme,Accept,Me">
+    <meta name="robots" content="index, follow">
+    <meta name="copyright" content="Acceptme.in">
+    <meta name="revisit-after" content="1 week">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+        integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+    <title>Request Acceptor | AcceptMe</title>
+
+    <!-- Odometr includes -->
+    <link rel="stylesheet" href="http://github.hubspot.com/odometer/themes/odometer-theme-default.css" /><!-- default theme -->
+
+    <script src="http://github.hubspot.com/odometer/odometer.js"></script>
+
+    <!-- Extra styles for this example -->
+    <style>
+        .odometer {
+            font-size: 60px;
+        }
+    </style>
+
+</head>
+<body>
+
+  <div id="counterBlock">
+      <!--odometer-->
+      <div id="odometer" class="odometer">0</div>
+      <!--odometer end-->
+      <!-- Modal for pending request in progress-->
+      <!-- <div class="modal fade" id="startAcceptingReq" tabindex="-1" role="dialog"
+          aria-labelledby="startAcceptingReqTitle">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content" style=" background: #ffffffe1;">
+                  <div class="modal-body text-center">
+                      <button type="button" class="close" data-dismiss="modal"
+                          aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                      Please await while your followers are being accepted.
+
+                  </div>
+              </div>
+          </div>
+      </div> -->
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"></script>
+
+<script>
+    /*
+    if (typeof jQuery == 'undefined') {
+      alert('jq not loaded');
+    }
+    */
+
+    $(function () {
+      alert('in countercall');
+          //alert(i);
+          window.setTimeout(function(){
+            for(i=0;i<{{ num }};i++){
+
+              $.ajax({
+                  type: 'GET',
+                  url: '/request_accepted_counter',
+                  success: function (data) {
+                      //alert(i + ' : ' + data);
+                      $('#odometer').text(data);
+                      i=data;
+                  }
+              });
+            }
+          }, 10000);
+    });
+    </script>
+
+    </body>
+    </html>
