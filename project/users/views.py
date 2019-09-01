@@ -8,7 +8,7 @@ from datetime import timedelta
 from project.users.request_acceptor import InstagramBot
 from flask_login import login_required, login_user, logout_user, current_user
 from flask import Blueprint, render_template, redirect, url_for, request, session
-import memcache
+import memcache as client
 
 
 sys.path.append('../../')
@@ -21,7 +21,8 @@ users_blueprint = Blueprint('users', __name__, template_folder='templates')
 def request_accepted_counter():
     try:
         if Counter:
-            counterval = Counter.query.filter_by(insta_username=session['insta_username']).first()
+            counterval = client.get(session['insta_username']) 
+			# Counter.query.filter_by(insta_username=session['insta_username']).first()
     except:
         time.sleep(0.10)
         ctr = "0"
@@ -36,10 +37,11 @@ def request_accepted_counter():
     #     ctr = "0"  # str(session["request_accepted_counter_demo"])
 
     if counterval is not None:
-        ctr = str(counterval.counts)
+        ctr = client.get(session['insta_username']) 
+		# str(counterval.counts)
 
     counterval = None
-    client = memcache.Client([('127.0.0.1', 11211)])
+#    client = memcache.Client([('127.0.0.1', 11211)])
     ctr = client.get(session['insta_username'])
 
     if ctr == None:
@@ -104,8 +106,9 @@ def accept_pending_requests():
 
 @users_blueprint.route('/request_accepted_count/<int:num>', methods=['GET', 'POST'])
 def request_accepted_count(num):
-    counter = Counter.query.filter_by(insta_username=session['insta_username']).first()
-    client = memcache.Client([('127.0.0.1', 11211)])
+    counter =client.get(session['insta_username'])
+	# Counter.query.filter_by(insta_username=session['insta_username']).first()
+    # client = memcache.Client([('127.0.0.1', 11211)])
     ctr = client.get(session['insta_username'])
     
     # if counter is not None:
@@ -144,9 +147,10 @@ def login():
         instagram_username = request.form['userEmailID']
         instagram_password = request.form['userLoginPassword']
 
-        session['insta_username'] = instagram_username
-        session['insta_password'] = instagram_password
-        session['request_accepted_counter_demo'] = 0
+        #session['insta_username'] = instagram_username
+        #session['insta_password'] = instagram_password
+		# client.set(instagram_username, 0)
+        # session['request_accepted_counter_demo'] = 0
         insta_bot = InstagramBot(instagram_username, instagram_password)
         insta_login_response = insta_bot.login()
         insta_bot.closeBrowser()
@@ -158,6 +162,10 @@ def login():
         if insta_login_response:
             user_obj = Users.query.filter_by(
                 insta_username=instagram_username).first()
+			session['insta_username'] = instagram_username
+			session['insta_password'] = instagram_password
+			client.set(instagram_username, 0)
+			
             if not user_obj:
                 new_user = Users(insta_username=instagram_username)
                 db.session.add(new_user)
@@ -190,13 +198,12 @@ def login():
                         next = url_for('core.pricing')
                     return redirect(next)
 
-        client = memcache.Client([('12.0.0.1', 11211)])
-        client.set(instagram_username, 0)
     return render_template('index.html')
 
 
 @login_required
 @users_blueprint.route('/logout')
 def logout():
+	client.set(instagram_username, 0)
     logout_user()
     return redirect(url_for('core.index'))

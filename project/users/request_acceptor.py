@@ -23,7 +23,6 @@ class InstagramBot:
         self.options.add_argument("--log-level=3")
         self.driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver', chrome_options=self.options)
 
-
     def closeBrowser(self):
         self.driver.close()
 
@@ -83,7 +82,6 @@ class InstagramBot:
         except:
             return False
 
-
     def pending_request_count(self):
 
         driver = self.driver
@@ -124,7 +122,6 @@ class InstagramBot:
         except:
             return "No request to accept"
 
-
     def accept_pending_requests(self, request_accept_count):
 
         print('in pending requests')
@@ -133,7 +130,7 @@ class InstagramBot:
         var2 = request_accept_count%15
         counter = 0
 
-        client = memcache.Client([('127.0.0.1', 11211)])
+        # client = memcache.Client([('127.0.0.1', 11211)])
         client.set(session['insta_username'], counter)
         db.isolation_level = None
         countval = Counter.query.filter_by(insta_username=session['insta_username']).first()
@@ -180,7 +177,7 @@ class InstagramBot:
 
                         session.modified = True
                         time.sleep(0.05)
-                        print('set: ', counter)
+                        print('set: ', client.get(session['insta_username']))
 
 
                     time.sleep(4)
