@@ -106,7 +106,7 @@ def accept_pending_requests():
 
 @users_blueprint.route('/request_accepted_count/<int:num>', methods=['GET', 'POST'])
 def request_accepted_count(num):
-    counter =client.get(session['insta_username'])
+    # counter =client.get(session['insta_username'])
 	# Counter.query.filter_by(insta_username=session['insta_username']).first()
     # client = memcache.Client([('127.0.0.1', 11211)])
     ctr = client.get(session['insta_username'])
